@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'screens/task_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,12 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Task Manager',
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Task Manager')),
-        body: const Center(
-          child: Text(''),
-        ),
-      ),
+      home: const TaskListScreen(),
     );
   }
 }
