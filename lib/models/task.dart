@@ -27,16 +27,12 @@ class Task {
       title: map['title'] ?? '',
       isCompleted: map['isCompleted'] ?? false,
       subtasks: List<Map<String, dynamic>>.from(map['subtasks'] ?? []),
-      createdAt:
-          DateTime.tryParse(map['createdAt'] ?? '') ?? DateTime.now(),
+      createdAt: DateTime.tryParse(map['createdAt'] ?? '') ?? DateTime.now(),
     );
   }
 
   Task copyWith({
-    String? title,
-    bool? isCompleted,
-    List<Map<String, dynamic>>? subtasks,
-  }) {
+    String? title, bool? isCompleted, List<Map<String, dynamic>>? subtasks,}) {
     return Task(
       id: id,
       title: title ?? this.title,
