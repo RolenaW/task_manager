@@ -37,4 +37,11 @@ class TaskService {
   Future<void> deleteTask(String taskId) async {
     await _taskCollection.doc(taskId).delete();
   }
+
+  Future<void> updateSubtasks(String taskId, List<Map<String, dynamic>> subtasks) async {
+    await _taskCollection.doc(taskId).update({
+      'subtasks': subtasks,
+    });
+  }
 }
+

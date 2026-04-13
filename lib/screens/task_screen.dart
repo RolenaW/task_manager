@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/task.dart';
 import '../services/task_service.dart';
+import '../widgets/task_tile.dart';
 
 class TaskListScreen extends StatefulWidget {
   const TaskListScreen({super.key});
@@ -102,29 +103,16 @@ class _TaskListScreenState extends State<TaskListScreen> {
                   itemCount: tasks.length,
                   itemBuilder: (context, index) {
                     final task = tasks[index];
-                    return ListTile(
-                      title: Text(
-                        task.title,
-                        style: TextStyle(
-                          decoration: task.isCompleted
-                              ? TextDecoration.lineThrough
-                              : null,
-                        ),
-                      ),
-                      leading: Checkbox(
-                        value: task.isCompleted,
-                        onChanged: (_) => _taskService.toggleTask(task),
-                      ),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete_outline),
-                        onPressed: () => _confirmDelete(task.id),
-                      ),
+                    return TaskTile(
+                      task: task,
+                      taskService: _taskService,
+                      onDeleteConfirm: _confirmDelete,
                     );
                   },
                 );
               },
             ),
-          )
+          ),
         ],
       ),
     );
