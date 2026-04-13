@@ -8,7 +8,6 @@ class TaskListScreen extends StatefulWidget {
   @override
   State<TaskListScreen> createState() => _TaskListScreenState();
 }
-
 class _TaskListScreenState extends State<TaskListScreen> {
   final TextEditingController _taskController = TextEditingController();
   final TaskService _taskService = TaskService();
@@ -21,12 +20,40 @@ class _TaskListScreenState extends State<TaskListScreen> {
 
   void _addTask() {
     final title = _taskController.text.trim();
-    if (title.isEmpty) return;
-
+    if (title.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Task cannot be empty')),
+      );
+      return;
+    }
     _taskService.addTask(title);
     _taskController.clear();
   }
 
+  void _confirmDelete(String taskId) { 
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Delete Task'),
+          content: const Text('Are you sure you want to delete this task?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                _taskService.deleteTask(taskId);
+                Navigator.pop(context);
+              },
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +117,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                       ),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete_outline),
-                        onPressed: () => _taskService.deleteTask(task.id),
+                        onPressed: () => _confirmDelete(task.id),
                       ),
                     );
                   },
